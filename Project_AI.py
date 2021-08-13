@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import tensorflow as tf
+
+#You can change the path if you want to generate a text based on something else than Shakespearean poems
 path_to_file = tf.keras.utils.get_file('shakespeare.txt', 'https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt')
 text = open(path_to_file, 'rb').read().decode(encoding='utf-8')
 
@@ -43,17 +45,21 @@ def build_model(vocab_size, embedding_dim,rnn_units, batch_size):
                             recurrent_initializer='glorot_uniform'),
         tf.keras.layers.Dense(vocab_size)])
     return model
-#
-#model = build_model(vocab_size=len(vocab),embedding_dim= embedding_dim,
-#                    rnn_units= rnn_units, batch_size=BATCH_SIZE)
-#
+
+# Here is the code for constructing a model or in other words teaching AI the structure of the Eglish language 
+
+
+"""
+model = build_model(vocab_size=len(vocab),embedding_dim= embedding_dim,
+                    rnn_units= rnn_units, batch_size=BATCH_SIZE)
+"""
 
 def loss(labels, logits):
     return tf.keras.losses.sparse_categorical_crossentropy(labels,
                                                            logits, from_logits=True)
-#
-#model.compile(optimizer='adam', loss = loss)
-#
+"""
+model.compile(optimizer='adam', loss = loss)
+"""
 
 checkpoint_dir = './training_chechpoints'
 checkpoint_prefix = os.path.join(checkpoint_dir, 'chkpt_{epoch}')
@@ -62,10 +68,14 @@ checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     save_weights_only=True)
 EPOCHS = 35
 
-#
-#history = model.fit(dataset, epochs=EPOCHS, callbacks=[checkpoint_callback])
-#
+"""
+history = model.fit(dataset, epochs=EPOCHS, callbacks=[checkpoint_callback])
+"""
 
+
+# This is the code for generating a text based on the constructed model
+                    
+"""                          
 model = build_model(vocab_size, embedding_dim,rnn_units,batch_size=1)
 
 model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
@@ -95,3 +105,4 @@ def generate_text(model, start_string):
 
     return (start_string + ''.join(text_generated))
 print(generate_text(model, start_string='The '))
+"""
